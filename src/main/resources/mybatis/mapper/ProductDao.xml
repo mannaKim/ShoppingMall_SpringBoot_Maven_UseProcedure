@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ezen.m16.dao.IProductDao">
+	
+	<resultMap type="java.util.HashMap" id="productMap"></resultMap>
+	<resultMap type="java.util.HashMap" id="productMap2"></resultMap>
+	
+	<select id="getBestNewProduct" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL getBestNewProduct(
+				#{ref_cursor1, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productMap},
+				#{ref_cursor2, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productMap2}
+			)
+		}
+	</select>
+</mapper>
