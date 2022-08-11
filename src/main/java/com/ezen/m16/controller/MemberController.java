@@ -151,4 +151,66 @@ public class MemberController {
 		model.addAttribute("reid", reid);
 		return url;
 	}
+	
+	@RequestMapping("/memberEditForm")
+	public String member_edit_form(Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		HashMap<String,Object> loginUser
+			= (HashMap<String,Object>)session.getAttribute("loginUser"); //세션에서 loginUser 추출
+		
+		MemberVO dto = new MemberVO();
+		dto.setId((String)loginUser.get("ID"));
+		dto.setPwd((String)loginUser.get("PWD"));
+		dto.setName((String)loginUser.get("NAME"));
+		dto.setEmail((String)loginUser.get("EMAIL"));
+		dto.setPhone((String)loginUser.get("PHONE"));
+		dto.setZip_num((String)loginUser.get("ZIP_NUM"));
+		dto.setAddress1((String)loginUser.get("ADDRESS1"));
+		dto.setAddress2((String)loginUser.get("ADDRESS2"));
+		dto.setAddress3((String)loginUser.get("ADDRESS3"));
+		
+		model.addAttribute("dto", dto);
+		return "member/memberUpdateForm";
+	}
+	
+	@RequestMapping(value="/memberUpdate", method=RequestMethod.POST)
+	public String member_update(
+			@ModelAttribute("dto") @Valid MemberVO membervo,
+			BindingResult result,
+			@RequestParam(value="pwdCheck", required=false) String pwdCheck,
+			Model model,
+			HttpServletRequest request) 
+	{
+		String url = "member/memberUpdateForm";
+		
+		if(result.getFieldError("pwd")!=null) 
+			model.addAttribute("message", result.getFieldError("pwd").getDefaultMessage());
+		else if(result.getFieldError("name")!=null) 
+			model.addAttribute("message", result.getFieldError("name").getDefaultMessage());
+		else if(result.getFieldError("email")!=null) 
+			model.addAttribute("message", result.getFieldError("email").getDefaultMessage());
+		else if(result.getFieldError("phone")!=null) 
+			model.addAttribute("message", result.getFieldError("phone").getDefaultMessage());
+		else if(pwdCheck == null || !pwdCheck.equals(membervo.getPwd())) 
+			model.addAttribute("message", "비밀번호 확인이 일치하지 않습니다.");
+		else {
+			HashMap<String,Object> paramMap = new HashMap<String,Object>();
+			paramMap.put("ID", membervo.getId());
+			paramMap.put("PWD", membervo.getPwd());
+			paramMap.put("NAME", membervo.getName());
+			paramMap.put("EMAIL", membervo.getEmail());
+			paramMap.put("PHONE", membervo.getPhone());
+			paramMap.put("ZIP_NUM", membervo.getZip_num());
+			paramMap.put("ADDRESS1", membervo.getAddress1());
+			paramMap.put("ADDRESS2", membervo.getAddress2());
+			paramMap.put("ADDRESS3", membervo.getAddress3());
+			// session에 담을 loginUser 때문에 key값을 대문자로 put
+			ms.updateMember(paramMap);
+
+			HttpSession session = request.getSession();
+			session.setAttribute("loginUser", paramMap);
+			url = "redirect:/";
+		}
+		return url;
+	}
 }
