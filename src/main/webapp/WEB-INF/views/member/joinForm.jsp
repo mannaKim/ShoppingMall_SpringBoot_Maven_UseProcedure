@@ -7,7 +7,7 @@
 		<fieldset>
 			<legend>Basic Info</legend>
 			<label>User ID</label><input type="text" name="id" size="12" value="${dto.id}">
-			<input type="hidden" name="reid" value="${dto.reid}">
+			<input type="hidden" name="reid" value="${reid}">
 			<input type="button" value="중복체크" class="dup" onclick="idcheck()"> <br>
 			<label>Password</label><input type="password" name="pwd"><br> 
 			<label>Retype Password</label><input type="password" name="pwdCheck"><br>
@@ -89,6 +89,7 @@
 			<label>Phone Number</label><input type="text" name="phone" value="${dto.phone}"><br>
 		</fieldset>
 		<div class="clear"></div>
+		${message}
 		<div id="buttons">
 			<input type="submit" value="회원가입" class="submit">
 			<input type="reset" value="취소" class="cancel">

@@ -117,6 +117,8 @@ public class MemberController {
 			Model model,
 			HttpServletRequest request) 
 	{
+		String url = "member/joinForm";
+		
 		if(result.getFieldError("id")!=null) 
 			model.addAttribute("message", result.getFieldError("id").getDefaultMessage());
 		else if(result.getFieldError("pwd")!=null) 
@@ -144,8 +146,9 @@ public class MemberController {
 			paramMap.put("address3", membervo.getAddress3());
 			ms.insertMember(paramMap);
 			model.addAttribute("message","회원가입 완료. 로그인하세요.");
+			url = "member/login";
 		}
-		
-		return "member/login";
+		model.addAttribute("reid", reid);
+		return url;
 	}
 }
