@@ -61,3 +61,13 @@ BEGIN
     WHERE id=p_id;
     COMMIT;
 END;
+
+
+create or replace PROCEDURE getKindList(
+    p_kind IN product.kind%TYPE,
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR SELECT * FROM product WHERE kind=p_kind;
+END;
