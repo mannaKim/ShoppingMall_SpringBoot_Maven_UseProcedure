@@ -104,3 +104,13 @@ IS
 BEGIN
     OPEN p_curvar FOR SELECT * FROM cart_view WHERE id=p_id;
 END;
+
+
+create or replace PROCEDURE deleteCart(
+    p_cseq IN cart.cseq%TYPE
+)
+IS
+BEGIN
+    DELETE FROM cart WHERE cseq=p_cseq;
+    COMMIT;
+END;
