@@ -81,3 +81,26 @@ IS
 BEGIN
     OPEN p_curvar FOR SELECT * FROM product WHERE pseq=p_pseq;
 END;
+
+
+create or replace PROCEDURE insertCart(
+    p_id IN cart.id%TYPE,
+    p_pseq IN cart.pseq%TYPE,
+    p_quantity IN cart.quantity%TYPE
+)
+IS
+BEGIN
+    INSERT INTO cart(cseq, id, pseq, quantity)
+    VALUES(cart_seq.nextVal, p_id, p_pseq, p_quantity);
+    COMMIT;
+END;
+
+
+create or replace PROCEDURE listCart(
+    p_id IN cart_view.id%TYPE,
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR SELECT * FROM cart_view WHERE id=p_id;
+END;
