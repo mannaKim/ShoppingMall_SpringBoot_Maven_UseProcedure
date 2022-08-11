@@ -16,4 +16,8 @@ public class MemberService {
 	public void getMember(HashMap<String, Object> paramMap) {
 		mdao.getMember(paramMap);
 	}
+
+	public void insertMember(HashMap<String, Object> paramMap) {
+		mdao.insertMember(paramMap);
+	}
 }

@@ -1,31 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/resources/headerfooter/header.jsp"%>
-<%@ include file="/resources/sub01/sub_image_menu.html"%>
+<%@ include file="../include/headerfooter/header.jsp" %>
+<%@ include file="../include/sub01/sub_image_menu.html" %>
 <article>
 	<h2>Join Us</h2>
 	<form action="join" method="post" name="formm">
 		<fieldset>
 			<legend>Basic Info</legend>
-			<label>User ID</label><input type="text" name="id" size="12">
-			<input type="hidden" name="reid">
+			<label>User ID</label><input type="text" name="id" size="12" value="${dto.id}">
+			<input type="hidden" name="reid" value="${dto.reid}">
 			<input type="button" value="중복체크" class="dup" onclick="idcheck()"> <br>
 			<label>Password</label><input type="password" name="pwd"><br> 
 			<label>Retype Password</label><input type="password" name="pwdCheck"><br>
-			<label>Name</label><input type="text" name="name"><br>
-			<label>E-Mail</label><input type="text" name="email"><br>
+			<label>Name</label><input type="text" name="name" value="${dto.name}"><br>
+			<label>E-Mail</label><input type="text" name="email" value="${dto.email}"><br>
 		</fieldset>
 		<fieldset>
 			<legend>Option Info</legend>
 			 <!-- https://postcode.map.daum.net/guide -->
 			 <label>Zip Code</label>
-			<input type="text" id="sample6_postcode" placeholder="우편번호" name="zip_num" readonly>
+			<input type="text" id="sample6_postcode" placeholder="우편번호" name="zip_num" value="${dto.zip_num}" readonly>
 			<input type="button" onclick="sample6_execDaumPostcode()" class="dup" value="우편번호 찾기"><br>
 			<label>Address</label>
-			<input type="text" id="sample6_address" placeholder="주소" name="address1" size="50" readonly><br>
+			<input type="text" id="sample6_address" placeholder="주소" name="address1" size="50" value="${dto.address1}" readonly><br>
 			<label>detailAddress</label>
-			<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="address2" size="50">
+			<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="address2" value="${dto.address2}" size="50"><br>
 			<label>extraAddress</label>
-			<input type="text" id="sample6_extraAddress" placeholder="참고항목" name="address3" readonly>
+			<input type="text" id="sample6_extraAddress" placeholder="참고항목" name="address3" value="${dto.address3}" readonly>
 
 			<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 			<script>
@@ -86,13 +86,13 @@
 				}
 			</script>
 			<br>
-			<label>Phone Number</label><input type="text" name="phone"><br>
+			<label>Phone Number</label><input type="text" name="phone" value="${dto.phone}"><br>
 		</fieldset>
 		<div class="clear"></div>
 		<div id="buttons">
-			<input type="button" value="회원가입" class="submit" onClick="go_save()">
+			<input type="submit" value="회원가입" class="submit">
 			<input type="reset" value="취소" class="cancel">
 		</div>
 	</form>
 </article>
-<%@ include file="/resources/headerfooter/footer.jsp"%>
+<%@ include file="../include/headerfooter/footer.jsp" %>

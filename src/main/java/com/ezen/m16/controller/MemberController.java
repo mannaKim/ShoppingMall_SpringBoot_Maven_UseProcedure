@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezen.m16.dto.MemberVO;
 import com.ezen.m16.service.MemberService;
@@ -76,4 +77,75 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping("/contract")
+	public String contract() {
+		return "member/contract";
+	}
+	
+	@RequestMapping(value="joinForm", method=RequestMethod.POST)
+	public String join_form(Model model, HttpServletRequest request) {
+		return "member/joinForm";
+	}
+	
+	@RequestMapping("idCheckForm")
+	public String id_check_form(
+			@RequestParam("id") String id,
+			Model model, HttpServletRequest request) {
+		HashMap<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("id", id);
+		paramMap.put("ref_cursor", null);
+		ms.getMember(paramMap);
+		ArrayList<HashMap<String, Object>> list
+		= (ArrayList<HashMap<String, Object>>)paramMap.get("ref_cursor");
+		
+		if(list.size() == 0) 
+			model.addAttribute("result", -1);
+		else
+			model.addAttribute("result", 1);
+		
+		model.addAttribute("id", id);
+		
+		return "member/idcheck";
+	}
+	
+	@RequestMapping(value="join", method=RequestMethod.POST)
+	public String join(
+			@ModelAttribute("dto") @Valid MemberVO membervo,
+			BindingResult result,
+			@RequestParam(value="reid", required=false) String reid,
+			@RequestParam(value="pwdCheck", required=false) String pwdCheck,
+			Model model,
+			HttpServletRequest request) 
+	{
+		if(result.getFieldError("id")!=null) 
+			model.addAttribute("message", result.getFieldError("id").getDefaultMessage());
+		else if(result.getFieldError("pwd")!=null) 
+			model.addAttribute("message", result.getFieldError("pwd").getDefaultMessage());
+		else if(result.getFieldError("name")!=null) 
+			model.addAttribute("message", result.getFieldError("name").getDefaultMessage());
+		else if(result.getFieldError("email")!=null) 
+			model.addAttribute("message", result.getFieldError("email").getDefaultMessage());
+		else if(result.getFieldError("phone")!=null) 
+			model.addAttribute("message", result.getFieldError("phone").getDefaultMessage());
+		else if(reid == null || !reid.equals(membervo.getId())) 
+			model.addAttribute("message", "아이디 중복 체크가 되지 않았습니다.");
+		else if(pwdCheck == null || !pwdCheck.equals(membervo.getPwd())) 
+			model.addAttribute("message", "비밀번호 확인이 일치하지 않습니다.");
+		else {
+			HashMap<String,Object> paramMap = new HashMap<String,Object>();
+			paramMap.put("id", membervo.getId());
+			paramMap.put("pwd", membervo.getPwd());
+			paramMap.put("name", membervo.getName());
+			paramMap.put("email", membervo.getEmail());
+			paramMap.put("phone", membervo.getPhone());
+			paramMap.put("zip_num", membervo.getZip_num());
+			paramMap.put("address1", membervo.getAddress1());
+			paramMap.put("address2", membervo.getAddress2());
+			paramMap.put("address3", membervo.getAddress3());
+			ms.insertMember(paramMap);
+			model.addAttribute("message","회원가입 완료. 로그인하세요.");
+		}
+		
+		return "member/login";
+	}
 }

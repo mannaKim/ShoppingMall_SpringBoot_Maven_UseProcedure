@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/resources/headerfooter/header.jsp"%>
-<%@ include file="/resources/sub01/sub_image_menu.html"%>
+<%@ include file="../include/headerfooter/header.jsp"%>
+<%@ include file="../include/sub01/sub_image_menu.html"%>
 
 <article>
 	<h2>회원 가입 약관</h2>
@@ -330,8 +330,7 @@
 			<input type="radio" name="okon">동의함&nbsp;&nbsp;&nbsp;
 			<input type="radio" name="okon" checked>동의안함
 		</div>
-		<input type="button" value="Next" class="submit" onClick="go_next();"
-			style="float: right;">
+		<input type="button" value="Next" class="submit" onClick="go_next();" style="float: right;">
 	</form>
 </article>
-<%@ include file="/resources/headerfooter/footer.jsp"%>
+<%@ include file="../include/headerfooter/footer.jsp"%>
