@@ -27,7 +27,7 @@
 						</c:when>
 						<c:otherwise>
 							<li style="color:blue; font-weight:bold; font-size:110%;">
-								${loginUser.name}(${loginUser.id})
+								${loginUser.NAME}(${loginUser.ID})
 							</li>
 							<li><a href="memberEditForm">정보수정</a></li>
 							<li><a href="logout">LOGOUT</a></li>
@@ -36,7 +36,7 @@
 					<li><a href="cartList">CART</a></li>
 					<li><a href="myPage">MY PAGE</a></li>
 					<li><a href="qnaList">Q&amp;A(1:1)</a></li>
-					<li><a href="admin">admin</a></li>
+					<!-- <li><a href="admin">admin</a></li> -->
 				</ul>
 			</nav>
 			<nav id="category_menu">
