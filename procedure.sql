@@ -71,3 +71,13 @@ IS
 BEGIN
     OPEN p_curvar FOR SELECT * FROM product WHERE kind=p_kind;
 END;
+
+
+create or replace PROCEDURE getProduct(
+    p_pseq IN product.pseq%TYPE,
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR SELECT * FROM product WHERE pseq=p_pseq;
+END;

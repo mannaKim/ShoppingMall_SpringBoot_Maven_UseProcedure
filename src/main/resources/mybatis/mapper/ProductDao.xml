@@ -25,4 +25,13 @@
 			)
 		}
 	</select>
+	
+	<select id="getProduct" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL getProduct(
+				#{pseq},
+				#{ref_cursor, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productMap}
+			)
+		}
+	</select>
 </mapper>

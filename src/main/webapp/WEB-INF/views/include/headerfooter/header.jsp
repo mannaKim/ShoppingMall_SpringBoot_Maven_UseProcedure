@@ -14,7 +14,7 @@
 	<div id="wrap">
 		<header>
 			<div id="logo">
-				<a href="/shop/"> 
+				<a href="/"> 
 					<img src="/images/logo.png" width="180" height="100">
 				</a>
 			</div>

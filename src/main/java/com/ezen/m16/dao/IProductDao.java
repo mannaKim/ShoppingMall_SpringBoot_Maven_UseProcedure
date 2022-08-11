@@ -11,4 +11,6 @@ public interface IProductDao {
 
 	void getKindList(HashMap<String, Object> paramMap);
 
+	void getProduct(HashMap<String, Object> paramMap);
+
 }

@@ -57,5 +57,25 @@ public class ProductController {
 		mav.setViewName("product/productKind");
 		return mav;
 	}
+	
+	@RequestMapping("/productDetail")
+	public ModelAndView product_detail(@RequestParam("pseq") int pseq) {
+		ModelAndView mav = new ModelAndView();
+		
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("ref_cursor", null);
+		paramMap.put("pseq", pseq);
+		
+		ps.getProduct(paramMap);
+		
+		ArrayList<HashMap<String, Object>> list
+		= (ArrayList<HashMap<String, Object>>)paramMap.get("ref_cursor");
+		
+		HashMap<String, Object> resultMap = list.get(0);
+		
+		mav.addObject("productVO", resultMap);
+		mav.setViewName("product/productDetail");
+		return mav;
+	}
 }
 	
