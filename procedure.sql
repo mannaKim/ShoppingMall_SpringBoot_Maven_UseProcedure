@@ -151,3 +151,16 @@ BEGIN
     -- 예외처리
     EXCEPTION WHEN OTHERS THEN ROLLBACK;
 END;
+
+
+create or replace PROCEDURE listOrder(
+    p_oseq IN order_view.oseq%TYPE,
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR 
+        SELECT * FROM order_view 
+        WHERE oseq=p_oseq
+        ORDER BY odseq;
+END;
