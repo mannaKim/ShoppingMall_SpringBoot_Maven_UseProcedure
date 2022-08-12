@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -72,5 +73,28 @@ public class OrderController {
 			mav.setViewName("mypage/orderList");
 		}
 		return mav;
+	}
+	
+	@RequestMapping(value="/orderInsertOne", method=RequestMethod.POST)
+	public String orderInsertOne(HttpServletRequest request,
+			@RequestParam("pseq") int pseq,
+			@RequestParam("quantity") int quantity) {
+		String oseq = "";
+		
+		HttpSession session = request.getSession();
+		HashMap<String, Object> loginUser
+			= (HashMap<String, Object>)session.getAttribute("loginUser");
+		if(loginUser == null)
+			return "member/login";
+		else {
+			HashMap<String,Object> paramMap = new HashMap<String,Object>();
+			paramMap.put("id", loginUser.get("ID"));
+			paramMap.put("pseq", pseq);
+			paramMap.put("quantity", quantity);
+			paramMap.put("oseq", 0);
+			os.insertOrderOne(paramMap);
+			oseq = paramMap.get("oseq").toString();
+		}
+		return "redirect:/orderList?oseq="+oseq;
 	}
 }

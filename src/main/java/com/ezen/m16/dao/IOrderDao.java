@@ -11,4 +11,6 @@ public interface IOrderDao {
 
 	void listOrder(HashMap<String, Object> paramMap);
 
+	void insertOrderOne(HashMap<String, Object> paramMap);
+
 }

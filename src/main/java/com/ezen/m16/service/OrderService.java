@@ -20,4 +20,8 @@ public class OrderService {
 	public void listOrder(HashMap<String, Object> paramMap) {
 		odao.listOrder(paramMap);
 	}
+
+	public void insertOrderOne(HashMap<String, Object> paramMap) {
+		odao.insertOrderOne(paramMap);
+	}
 }
