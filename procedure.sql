@@ -127,28 +127,28 @@ IS
     v_pseq cart.pseq%TYPE;
     v_quantity cart.quantity%TYPE;
 BEGIN
-    -- orders ?…Œ?´ë¸”ì— ? ˆì½”ë“œ ì¶”ê?
+    -- orders í…Œì´ë¸”ì— ë ˆì½”ë“œ ì¶”ê°€
     INSERT INTO orders(oseq, id) VALUES(ORDERS_SEQ.nextval, p_id);
-    -- orders ?…Œ?´ë¸”ì—?„œ ê°??¥ ?° oseq ì¡°íšŒ 
+    -- orders í…Œì´ë¸”ì—ì„œ ê°€ì¥ í° oseq ì¡°íšŒ 
     SELECT MAX(oseq) INTO v_oseq FROM orders;
-     -- oseq ê°’ì„ OUT ë³??ˆ˜?— ???¥
+    -- oseq ê°’ì„ OUT ë³€ìˆ˜ì— ì €ì¥
     p_oseq := v_oseq;
-    -- cart ?…Œ?´ë¸”ì—?„œ idë¡? ëª©ë¡ ì¡°íšŒ
+    -- cart í…Œì´ë¸”ì—ì„œ idë¡œ ëª©ë¡ ì¡°íšŒ
     OPEN temp_cur FOR 
         SELECT cseq, pseq, quantity 
         FROM cart 
         WHERE id=p_id AND result='1';
-    -- ëª©ë¡ê³? oseqë¡? order_detail ?…Œ?´ë¸”ì— ? ˆì½”ë“œ ì¶”ê?
+    -- ëª©ë¡ê³¼ oseqë¡œ order_detail í…Œì´ë¸”ì— ë ˆì½”ë“œ ì¶”ê°€
     LOOP
         FETCH temp_cur INTO v_cseq, v_pseq, v_quantity;
         EXIT WHEN temp_cur%NOTFOUND;
         INSERT INTO order_detail(odseq, oseq, pseq, quantity)
         VALUES(ORDER_DETAIL_SEQ.nextval, v_oseq, v_pseq, v_quantity);
-        -- cart ?…Œ?´ë¸”ì˜ ?‚´?š© ?‚­? œ
+        -- cart í…Œì´ë¸”ì˜ ë‚´ìš© ì‚­ì œ
         DELETE FROM cart WHERE cseq=v_cseq;
     END LOOP;
     COMMIT;
-    -- ?˜ˆ?™¸ì²˜ë¦¬
+    -- ì˜ˆì™¸ì²˜ë¦¬
     EXCEPTION WHEN OTHERS THEN ROLLBACK;
 END;
 
