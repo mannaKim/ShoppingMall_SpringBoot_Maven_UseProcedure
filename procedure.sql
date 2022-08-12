@@ -114,3 +114,40 @@ BEGIN
     DELETE FROM cart WHERE cseq=p_cseq;
     COMMIT;
 END;
+
+
+create or replace PROCEDURE insertOrder(
+    p_id IN orders.id%TYPE,
+    p_oseq OUT orders.oseq%TYPE
+)
+IS
+    temp_cur SYS_REFCURSOR;
+    v_oseq orders.oseq%TYPE;
+    v_cseq cart.cseq%TYPE;
+    v_pseq cart.pseq%TYPE;
+    v_quantity cart.quantity%TYPE;
+BEGIN
+    -- orders 테이블에 레코드 추가
+    INSERT INTO orders(oseq, id) VALUES(ORDERS_SEQ.nextval, p_id);
+    -- orders 테이블에서 가장 큰 oseq 조회 
+    SELECT MAX(oseq) INTO v_oseq FROM orders;
+    -- oseq 값을 OUT 변수에 저장
+    p_oseq := v_oseq;
+    -- cart 테이블에서 id로 목록 조회
+    OPEN temp_cur FOR 
+        SELECT cseq, pseq, quantity 
+        FROM cart 
+        WHERE id=p_id AND result='1';
+    -- 목록과 oseq로 order_detail 테이블에 레코드 추가
+    LOOP
+        FETCH temp_cur INTO v_cseq, v_pseq, v_quantity;
+        EXIT WHEN temp_cur%NOTFOUND;
+        INSERT INTO order_detail(odseq, oseq, pseq, quantity)
+        VALUES(ORDER_DETAIL_SEQ.nextval, v_oseq, v_pseq, v_quantity);
+        -- cart 테이블의 내용 삭제
+        DELETE FROM cart WHERE cseq=v_cseq;
+    END LOOP;
+    COMMIT;
+    -- 예외처리
+    EXCEPTION WHEN OTHERS THEN ROLLBACK;
+END;

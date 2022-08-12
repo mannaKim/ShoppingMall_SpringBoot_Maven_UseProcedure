@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/resources/headerfooter/header.jsp" %>
-<%@ include file="/resources/sub03/sub_image_menu.jsp" %>
+<%@ include file="../include/headerfooter/header.jsp" %>
+<%@ include file="../include/sub03/sub_image_menu.jsp" %>
 <article>
 	<form>
 		<h2>Order List</h2>
@@ -15,15 +15,15 @@
 			<c:forEach items="${orderList}" var="orderVO">
 				<tr>
 					<td>
-						<a href="productDetail?pseq=${orderVO.pseq}">
-							<h3>${orderVO.pname}</h3>
+						<a href="productDetail?pseq=${orderVO.PSEQ}">
+							<h3>${orderVO.PNAME}</h3>
 						</a>
 					</td>
-					<td>${orderVO.quantity}</td>
+					<td>${orderVO.QUANTITY}</td>
 					<td>
-						<fmt:formatNumber value="${orderVO.price2*orderVO.quantity}" type="currency" />
+						<fmt:formatNumber value="${orderVO.PRICE2*orderVO.QUANTITY}" type="currency" />
 					</td>
-					<td><fmt:formatDate value="${orderVO.indate}" type="date" /></td>
+					<td><fmt:formatDate value="${orderVO.INDATE}" type="date" /></td>
 					<td>처리 진행 중</td>
 				</tr>
 			</c:forEach>
@@ -37,8 +37,8 @@
 		</table>
 		<div class="clear"></div>
 		<div id="buttons" style="float:right;">
-			<input type="button" value="계속 쇼핑" class="cancel" onclick="location.href='/shop/'">
+			<input type="button" value="계속 쇼핑" class="cancel" onclick="location.href='/'">
 		</div>
 	</form>
 </article>
-<%@ include file="/resources/headerfooter/footer.jsp" %>
+<%@ include file="../include/headerfooter/footer.jsp" %>
