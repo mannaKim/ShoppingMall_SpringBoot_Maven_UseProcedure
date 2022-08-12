@@ -25,4 +25,20 @@
 		}
 	</select>
 	
+	<insert id="insertQna" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL insertQna(
+				#{id}, #{subject}, #{content}
+			)
+		}
+	</insert>
+	
+	<select id="getQna" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL getQna(
+				#{qseq},
+				#{ref_cursor, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=qnaMap}
+			)
+		}
+	</select>
 </mapper>

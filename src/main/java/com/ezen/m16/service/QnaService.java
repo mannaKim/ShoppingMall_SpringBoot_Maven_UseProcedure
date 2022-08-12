@@ -28,4 +28,12 @@ public class QnaService {
 		qdao.listQna(paramMap);
 		paramMap.put("paging", paging);
 	}
+	
+	public void insertQna(HashMap<String, Object> paramMap) {
+		qdao.insertQna(paramMap);
+	}
+
+	public void getQna(HashMap<String, Object> paramMap) {
+		qdao.getQna(paramMap);
+	}
 }

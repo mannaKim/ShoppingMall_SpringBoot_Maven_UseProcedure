@@ -239,3 +239,27 @@ BEGIN
             ) WHERE rn>=p_startNum
         ) WHERE rn<=p_endNum;
 END;
+
+
+create or replace PROCEDURE insertQna(
+    p_id IN qna.id%TYPE,
+    p_subject IN qna.subject%TYPE,
+    p_content IN qna.content%TYPE
+)
+IS
+BEGIN
+    INSERT INTO qna(qseq, id, subject, content)
+    VALUES(qna_seq.nextVal, p_id, p_subject, p_content);
+    COMMIT;
+END;
+
+
+create or replace PROCEDURE getQna(
+    p_qseq IN qna.qseq%TYPE,
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR
+        SELECT * FROM qna WHERE qseq=p_qseq;
+END;
