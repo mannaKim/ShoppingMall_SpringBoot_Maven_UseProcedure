@@ -181,4 +181,31 @@ BEGIN
     INSERT INTO order_detail(odseq, oseq, pseq, quantity)
     VALUES(ORDER_DETAIL_SEQ.nextval, v_oseq, p_pseq, p_quantity);
     COMMIT;
+    EXCEPTION WHEN OTHERS THEN ROLLBACK;
+END;
+
+
+create or replace PROCEDURE listOrderByIdIng(
+    p_id IN order_view.id%TYPE,
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR 
+        SELECT DISTINCT oseq FROM order_view 
+        WHERE id=p_id AND result='1'
+        ORDER BY oseq DESC;
+END;
+
+
+create or replace PROCEDURE listOrderByIdAll(
+    p_id IN order_view.id%TYPE,
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR 
+        SELECT DISTINCT oseq
+        FROM (SELECT oseq, id FROM order_view ORDER BY result, oseq DESC)
+        WHERE id=p_id;
 END;

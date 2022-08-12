@@ -97,4 +97,81 @@ public class OrderController {
 		}
 		return "redirect:/orderList?oseq="+oseq;
 	}
+	
+	@RequestMapping("/myPage")
+	public ModelAndView myPage(HttpServletRequest request) {
+		ModelAndView mav =  new ModelAndView();
+		HttpSession session = request.getSession();
+		HashMap<String, Object> loginUser
+			= (HashMap<String, Object>)session.getAttribute("loginUser");
+		if(loginUser == null)
+			mav.setViewName("member/login");
+		else {
+			HashMap<String,Object> paramMap = new HashMap<String,Object>();
+			paramMap.put("id", loginUser.get("ID"));
+			os.myPageList(paramMap);
+			
+			ArrayList<HashMap<String, Object>> finalList
+				= (ArrayList<HashMap<String, Object>>)paramMap.get("finalList");
+			mav.addObject("orderList", finalList);
+			
+			mav.addObject("title", "진행중인 주문내역");
+			mav.setViewName("mypage/mypage");
+		}
+		return mav;
+	}
+	
+	@RequestMapping("/orderDetail")
+	public ModelAndView order_detail(HttpServletRequest request, @RequestParam("oseq") int oseq) {
+		ModelAndView mav =  new ModelAndView();
+		HttpSession session = request.getSession();
+		HashMap<String, Object> loginUser
+			= (HashMap<String, Object>)session.getAttribute("loginUser");
+		if(loginUser == null)
+			mav.setViewName("member/login");
+		else {
+			HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("oseq", oseq);
+			paramMap.put("ref_cursor", null);
+			os.listOrder(paramMap);
+			
+			ArrayList<HashMap<String, Object>> list
+				= (ArrayList<HashMap<String, Object>>)paramMap.get("ref_cursor");
+			
+			int totalPrice = 0;
+			for(HashMap<String,Object> order : list) {
+				totalPrice += Integer.parseInt(order.get("QUANTITY").toString())
+									* Integer.parseInt(order.get("PRICE2").toString());
+			}
+			
+			mav.addObject("orderList", list);
+			mav.addObject("totalPrice", totalPrice);
+			mav.addObject("orderDetail", list.get(0));
+			mav.setViewName("mypage/orderDetail");
+		}
+		return mav;
+	}	
+	
+	@RequestMapping("/orderAll")
+	public ModelAndView order_all(HttpServletRequest request) {
+		ModelAndView mav =  new ModelAndView();
+		HttpSession session = request.getSession();
+		HashMap<String, Object> loginUser
+			= (HashMap<String, Object>)session.getAttribute("loginUser");
+		if(loginUser == null)
+			mav.setViewName("member/login");
+		else {
+			HashMap<String,Object> paramMap = new HashMap<String,Object>();
+			paramMap.put("id", loginUser.get("ID"));
+			os.orderAllList(paramMap);
+			
+			ArrayList<HashMap<String, Object>> finalList
+				= (ArrayList<HashMap<String, Object>>)paramMap.get("finalList");
+			mav.addObject("orderList", finalList);
+			
+			mav.addObject("title", "총 주문내역");
+			mav.setViewName("mypage/mypage");
+		}
+		return mav;
+	}
 }
