@@ -263,3 +263,24 @@ BEGIN
     OPEN p_curvar FOR
         SELECT * FROM qna WHERE qseq=p_qseq;
 END;
+
+
+create or replace PROCEDURE getAdmin(
+    p_id IN worker.id%TYPE,
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR
+        SELECT * FROM worker WHERE id=p_id;
+END;
+
+
+create or replace PROCEDURE getProductList(
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR
+        SELECT * FROM product ORDER BY pseq DESC;
+END;

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ezen.m16.dao.IAdminDao">
+	
+	<resultMap type="java.util.HashMap" id="adminMap"></resultMap>
+
+	<select id="getAdmin" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL getAdmin(
+				#{workId},
+				#{ref_cursor, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=adminMap}
+			)
+		}
+	</select>
+	
+	<select id="getProductList" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL getProductList(
+				#{ref_cursor, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=adminMap}
+			)
+		}
+	</select>
+</mapper>

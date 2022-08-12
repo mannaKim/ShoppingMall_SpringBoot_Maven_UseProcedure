@@ -36,7 +36,7 @@
 					<li><a href="cartList">CART</a></li>
 					<li><a href="myPage">MY PAGE</a></li>
 					<li><a href="qnaList?page=1">Q&amp;A(1:1)</a></li>
-					<!-- <li><a href="admin">admin</a></li> -->
+					<li><a href="admin">admin</a></li>
 				</ul>
 			</nav>
 			<nav id="category_menu">
