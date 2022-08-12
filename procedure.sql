@@ -209,3 +209,33 @@ BEGIN
         FROM (SELECT oseq, id FROM order_view ORDER BY result, oseq DESC)
         WHERE id=p_id;
 END;
+
+
+create or replace PROCEDURE getAllCount(
+    p_id IN qna.id%TYPE,
+    p_cnt OUT NUMBER
+)
+IS
+    v_cnt NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO v_cnt FROM qna WHERE id=p_id;
+    p_cnt := v_cnt;
+END;
+
+
+create or replace PROCEDURE listQna(
+    p_id IN qna.id%TYPE,
+    p_startNum IN NUMBER,
+    p_endNum IN NUMBER,
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR
+        SELECT * FROM (
+            SELECT * FROM (
+                SELECT ROWNUM as rn, q.* FROM
+                    ((SELECT * FROM qna WHERE id=p_id ORDER BY rep, qseq DESC) q)
+            ) WHERE rn>=p_startNum
+        ) WHERE rn<=p_endNum;
+END;

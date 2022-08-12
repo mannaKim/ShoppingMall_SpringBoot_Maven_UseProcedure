@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ezen.m16.dao.IQnaDao">
+	
+	<resultMap type="java.util.HashMap" id="qnaMap"></resultMap>
+	
+	<select id="getAllCount" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL getAllCount(
+				#{id},
+				#{cnt, mode=OUT, jdbcType=INTEGER}
+			)
+		}
+	</select>
+	
+	<select id="listQna" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL listQna(
+				#{id}, #{startNum}, #{endNum},
+				#{ref_cursor, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=qnaMap}
+			)
+		}
+	</select>
+	
+</mapper>
