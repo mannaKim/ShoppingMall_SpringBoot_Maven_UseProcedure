@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="/resources/admin/header.jsp" %>
-<%@ include file="/resources/admin/sub_menu.jsp" %>
+<%@ include file="../../include/admin/header.jsp" %>
+<%@ include file="../../include/admin/sub_menu.jsp" %>
 <article>
-	<form name="frm" method="post" enctype="multipart/form-data">
+	<form name="frm" method="post">
 		<table id="list">
 			<tr>
 				<th>상품분류</th>
@@ -12,15 +12,6 @@
 							<option value="${status.count}">${kind}</option>
 						</c:forEach>
 					</select>
-					<!-- 위 반복문과 같은 내용 				
-					<select name="kind">
-						<option value="1">Heels</option>
-						<option value="2">Boots</option>
-						<option value="3">Sandals</option>
-						<option value="4">Sneakers</option>
-						<option value="5">Slippers</option>
-						<option value="6">On Sale</option>
-					</select> -->
 				</td>
 			</tr>
 			<tr>
@@ -51,13 +42,20 @@
 			</tr>
 			<tr>
 				<th>상품이미지</th>
-				<td width="343" colspan="5">
-					<input type="file" name="image">
+				<td height="343" colspan="5">
+					<input type="hidden" name="image" id="image">
+					<div id="filename"></div>
 				</td>
 			</tr>
 		</table>
 		<input class="btn" type="button" value="등록" onClick="go_save();">
 		<input class="btn" type="button" value="목록으로" onClick="go_mov();">
 	</form>
+	<div style="position:relative; top:-68px;">
+		<form name="formm" id="fileupForm" method="post" enctype="multipart/form-data">
+			<input type="file" name="fileimage">
+			<input type="button" id="myButton" value="추가">
+		</form>
+	</div>
 </article>
-<%@ include file="/resources/admin/footer.jsp" %>
+<%@ include file="../../include/admin/footer.jsp" %>

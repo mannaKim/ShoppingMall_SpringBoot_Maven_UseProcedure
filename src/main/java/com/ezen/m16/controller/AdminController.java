@@ -1,8 +1,10 @@
 package com.ezen.m16.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,11 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ezen.m16.dto.Paging;
 import com.ezen.m16.service.AdminService;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 @Controller
 public class AdminController {
@@ -102,5 +108,33 @@ public class AdminController {
 			mav.setViewName("admin/product/productList");
 		}
 		return mav;
+	}
+	
+	@RequestMapping("/productWriteForm")
+	public String product_write_form(HttpServletRequest request, Model model) {
+		String kindList[] = {"Heels", "Boots", "Sandals", "Sneakers", "Slippers", "On Sale"};
+		model.addAttribute("kindList", kindList);
+		return "admin/product/productWriteForm";
+	}
+	
+	@Autowired
+	ServletContext context;
+	
+	@RequestMapping(value="fileup", method=RequestMethod.POST)
+	@ResponseBody
+	public HashMap<String,Object> fileup(HttpServletRequest request, Model model) {
+		HashMap<String,Object> result = new HashMap<String,Object>();
+		String path = context.getRealPath("/product_images");
+		try {
+			MultipartRequest multi = new MultipartRequest(
+					request, path, 5*1024*1024, "UTF-8", new DefaultFileRenamePolicy()
+			);
+			result.put("STATUS", 1);
+			result.put("FILENAME", multi.getFilesystemName("fileimage"));
+			System.out.println(multi.getFilesystemName("fileimage"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
