@@ -78,13 +78,27 @@ public class AdminController {
 			}else {
 				session.removeAttribute("page");
 			}
+			
+			String key = "";
+			if(request.getParameter("key")!=null) {
+				key = request.getParameter("key");
+				session.setAttribute("key", key);
+			}else if(session.getAttribute("key")!=null) {
+				key = (String)session.getAttribute("key");
+			}else {
+				session.removeAttribute("key");
+			}
+			
 			HashMap<String,Object> paramMap = new HashMap<String,Object>();
 			paramMap.put("ref_cursor", null);
-			as.getProductList(paramMap, page);
+			paramMap.put("key", key);
+			as.getProductList(paramMap, page, key);
 			ArrayList<HashMap<String,Object>> list
 				= (ArrayList<HashMap<String,Object>>)paramMap.get("ref_cursor");
+			
 			mav.addObject("productList", list);
 			mav.addObject("paging", (Paging)paramMap.get("paging"));
+			mav.addObject("key", key);
 			mav.setViewName("admin/product/productList");
 		}
 		return mav;

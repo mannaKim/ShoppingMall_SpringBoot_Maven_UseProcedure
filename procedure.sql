@@ -279,6 +279,7 @@ END;
 create or replace PROCEDURE getProductList(
     p_startNum IN NUMBER,
     p_endNum IN NUMBER,
+    p_key IN product.name%TYPE,
     p_curvar OUT SYS_REFCURSOR
 )
 IS
@@ -287,7 +288,9 @@ BEGIN
         SELECT * FROM (
             SELECT * FROM (
                 SELECT rownum AS rn, p.* FROM (
-                    (SELECT * FROM product ORDER BY pseq DESC) p)
+                    (SELECT * FROM product 
+                    WHERE name LIKE '%'||p_key||'%'
+                    ORDER BY pseq DESC) p)
             ) WHERE rn>=p_startNum
         ) WHERE rn<=p_endNum;
 END;
@@ -295,6 +298,7 @@ END;
 
 create or replace PROCEDURE adminGetAllCount(
     P_tableName IN NUMBER,
+    p_key IN product.name%TYPE,
     P_cnt OUT NUMBER
 )
 IS
@@ -302,7 +306,9 @@ IS
 BEGIN
     IF p_tableName = 1
     THEN 
-        SELECT COUNT(*) INTO v_cnt FROM product;
+        SELECT COUNT(*) INTO v_cnt 
+        FROM product
+        WHERE name LIKE '%'||p_key||'%';
     END IF;
     p_cnt := v_cnt;
 END;

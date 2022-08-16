@@ -18,12 +18,13 @@ public class AdminService {
 		adao.getAdmin(paramMap);
 	}
 
-	public void getProductList(HashMap<String, Object> paramMap, int page) {
+	public void getProductList(HashMap<String, Object> paramMap, int page, String key) {
 		Paging paging = new Paging();
 		paging.setPage(page);
 		HashMap<String,Object> cntMap = new HashMap<String,Object>();
 		cntMap.put("cnt", 0);
 		cntMap.put("tableName", 1);
+		cntMap.put("key", key);
 		adao.adminGetAllCount(cntMap);
 		paging.setTotalCount(Integer.parseInt(cntMap.get("cnt").toString()));
 		
