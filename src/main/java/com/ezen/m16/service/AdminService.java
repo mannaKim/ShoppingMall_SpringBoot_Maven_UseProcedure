@@ -35,4 +35,8 @@ public class AdminService {
 		adao.getProductList(paramMap);
 		paramMap.put("paging", paging);
 	}
+
+	public void insertProduct(HashMap<String, Object> paramMap) {
+		adao.insertProduct(paramMap);
+	}
 }

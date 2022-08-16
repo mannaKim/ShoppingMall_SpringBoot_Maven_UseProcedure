@@ -131,10 +131,25 @@ public class AdminController {
 			);
 			result.put("STATUS", 1);
 			result.put("FILENAME", multi.getFilesystemName("fileimage"));
-			System.out.println(multi.getFilesystemName("fileimage"));
+//			System.out.println(multi.getFilesystemName("fileimage"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	@RequestMapping(value="/productWrite", method=RequestMethod.POST)
+	public String product_write(HttpServletRequest request, Model model) {
+		HashMap<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("name", request.getParameter("name"));
+		paramMap.put("kind", request.getParameter("kind"));
+		paramMap.put("price1", Integer.parseInt(request.getParameter("price1")));
+		paramMap.put("price2", Integer.parseInt(request.getParameter("price2")));
+		paramMap.put("price3", Integer.parseInt(request.getParameter("price3")));
+		paramMap.put("content", request.getParameter("content"));
+		paramMap.put("image", request.getParameter("image"));
+		
+		as.insertProduct(paramMap);
+		return "redirect:/productList";
 	}
 }
