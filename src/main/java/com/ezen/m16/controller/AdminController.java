@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ezen.m16.dto.Paging;
 import com.ezen.m16.service.AdminService;
 
 @Controller
@@ -68,12 +69,22 @@ public class AdminController {
 		if(session.getAttribute("loginAdmin")==null)
 			mav.setViewName("admin/adminLoginForm");
 		else {
+			int page = 1;
+			if(request.getParameter("page")!=null) {
+				page = Integer.parseInt(request.getParameter("page"));
+				session.setAttribute("page", page);
+			}else if(session.getAttribute("page")!=null) {
+				page = (Integer)session.getAttribute("page");
+			}else {
+				session.removeAttribute("page");
+			}
 			HashMap<String,Object> paramMap = new HashMap<String,Object>();
 			paramMap.put("ref_cursor", null);
-			as.getProductList(paramMap);
+			as.getProductList(paramMap, page);
 			ArrayList<HashMap<String,Object>> list
 				= (ArrayList<HashMap<String,Object>>)paramMap.get("ref_cursor");
 			mav.addObject("productList", list);
+			mav.addObject("paging", (Paging)paramMap.get("paging"));
 			mav.setViewName("admin/product/productList");
 		}
 		return mav;

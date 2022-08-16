@@ -19,8 +19,19 @@
 	<select id="getProductList" statementType="CALLABLE" parameterType="java.util.HashMap">
 		{
 			CALL getProductList(
+				#{startNum}, #{endNum},
 				#{ref_cursor, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=adminMap}
 			)
 		}
 	</select>
+	
+	<select id="adminGetAllCount" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL adminGetAllCount(
+				#{tableName},
+				#{cnt, mode=OUT, jdbcType=INTEGER}
+			)
+		}
+	</select>
+	
 </mapper>

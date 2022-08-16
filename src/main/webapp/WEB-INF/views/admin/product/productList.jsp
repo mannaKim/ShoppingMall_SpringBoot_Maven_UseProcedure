@@ -53,9 +53,9 @@
 			</c:choose>
 		</table>
 		<br>
-<%-- 		<jsp:include page="/resources/paging/paging.jsp">
+		<jsp:include page="../../include/paging/paging.jsp">
 			<jsp:param value="productList" name="command"/>
-		</jsp:include> --%>
+		</jsp:include>
 	</form>
 </article>
 <%@ include file="../../include/admin/footer.jsp" %>

@@ -277,10 +277,32 @@ END;
 
 
 create or replace PROCEDURE getProductList(
+    p_startNum IN NUMBER,
+    p_endNum IN NUMBER,
     p_curvar OUT SYS_REFCURSOR
 )
 IS
 BEGIN
     OPEN p_curvar FOR
-        SELECT * FROM product ORDER BY pseq DESC;
+        SELECT * FROM (
+            SELECT * FROM (
+                SELECT rownum AS rn, p.* FROM (
+                    (SELECT * FROM product ORDER BY pseq DESC) p)
+            ) WHERE rn>=p_startNum
+        ) WHERE rn<=p_endNum;
+END;
+
+
+create or replace PROCEDURE adminGetAllCount(
+    P_tableName IN NUMBER,
+    P_cnt OUT NUMBER
+)
+IS
+    v_cnt NUMBER;
+BEGIN
+    IF p_tableName = 1
+    THEN 
+        SELECT COUNT(*) INTO v_cnt FROM product;
+    END IF;
+    p_cnt := v_cnt;
 END;

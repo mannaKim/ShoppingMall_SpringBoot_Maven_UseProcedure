@@ -11,4 +11,6 @@ public interface IAdminDao {
 
 	void getProductList(HashMap<String, Object> paramMap);
 
+	void adminGetAllCount(HashMap<String, Object> cntMap);
+
 }
