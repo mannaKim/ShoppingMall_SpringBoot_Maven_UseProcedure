@@ -6,5 +6,6 @@
 	    <li><a href="adminOrderList?first=y">주문리스트</a></li>
 	    <li><a href="memberList?first=y">회원리스트</a></li>
 	    <li><a href="adminQnaList?first=y">Q&amp;A리스트</a></li>
+	    <li><a href="adminBannerList?first=y">Banner관리</a></li>
 	</ul>
 </nav>

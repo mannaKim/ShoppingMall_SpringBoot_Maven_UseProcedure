@@ -2,8 +2,15 @@
 <%@ include file="include/headerfooter/header.jsp" %>
 <!-- 메인이미지 -->
 <div id="main_img">
-	<img src="/images/main_img.jpg"
-		style="border-radius: 20px 20px 20px 20px; border: 2px solid white;">
+	<!-- <img src="/images/main_img.jpg"
+		style="border-radius: 20px 20px 20px 20px; border: 2px solid white;"> -->
+	<div id="view" style="position:relative; width:970px; height:350px; border:1px solid red; overflow:hidden">
+		<div id="imgs" style="position:absolute; left:0px; top:0px; width:4840px; height:350px; text-align:left">
+			<c:forEach items="${bannerList}" var="bannerVO">
+				<img src="/product_images/${bannerVO.IMAGE}" width="968">
+			</c:forEach>
+		</div>
+	</div>
 </div>
 <!-- 신상품 -->
 <div id="front">

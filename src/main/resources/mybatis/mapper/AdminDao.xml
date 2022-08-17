@@ -42,4 +42,20 @@
 		}
 	</insert>
 	
+	<select id="getBannerList" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL getBannerList(
+				#{ref_cursor, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=adminMap}
+			)
+		}
+	</select>
+	
+	<insert id="insertBanner" statementType="CALLABLE" parameterType="java.util.HashMap">
+		{
+			CALL insertBanner(
+				#{name}, #{order_seq}, #{useyn}, #{image}
+			)
+		}
+	</insert>
+	
 </mapper>

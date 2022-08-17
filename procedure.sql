@@ -1,6 +1,7 @@
 create or replace PROCEDURE getBestNewProduct(
     p_curvar1 OUT SYS_REFCURSOR,
-    p_curvar2 OUT SYS_REFCURSOR
+    p_curvar2 OUT SYS_REFCURSOR,
+    p_curvar3 OUT SYS_REFCURSOR
 )
 IS
 BEGIN
@@ -8,6 +9,8 @@ BEGIN
         SELECT * FROM new_pro_view;
     OPEN p_curvar2 FOR
         SELECT * FROM best_pro_view;
+    OPEN p_curvar3 FOR
+        SELECT * FROM banner WHERE order_seq<=5 ORDER BY order_seq;
 END;
 
 
@@ -327,5 +330,43 @@ IS
 BEGIN
     INSERT INTO product(pseq, name, kind, price1, price2, price3, content, image)
     VALUES(PRODUCT_SEQ.nextval, p_name, p_kind, p_price1, p_price2, p_price3, p_content, p_image);
+    COMMIT;
+END;
+
+
+CREATE TABLE banner(
+	bseq number(5) primary key,
+	name varchar2(100),
+	order_seq number(1),
+	image varchar(50),
+	useyn char(1) default 'y',
+	indate date default sysdate
+);
+
+CREATE sequence banner_seq start with 1;
+
+select * from banner;
+
+
+create or replace PROCEDURE getBannerList(
+    p_curvar OUT SYS_REFCURSOR
+)
+IS
+BEGIN
+    OPEN p_curvar FOR
+        SELECT * FROM banner ORDER BY useyn DESC, order_seq ASC;
+END;
+
+
+create or replace PROCEDURE insertBanner(
+    p_name IN banner.name%TYPE,
+    p_order_seq IN banner.order_seq%TYPE,
+    p_useyn IN banner.useyn%TYPE,
+    p_image IN banner.image%TYPE
+)
+IS
+BEGIN
+    INSERT INTO banner(bseq, name, order_seq, useyn, image)
+    VALUES(banner_seq.nextval, p_name, p_order_seq, p_useyn, p_image);
     COMMIT;
 END;

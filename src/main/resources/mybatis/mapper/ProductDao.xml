@@ -7,12 +7,14 @@
 	
 	<resultMap type="java.util.HashMap" id="productMap"></resultMap>
 	<resultMap type="java.util.HashMap" id="productMap2"></resultMap>
+	<resultMap type="java.util.HashMap" id="productMap3"></resultMap>
 	
 	<select id="getBestNewProduct" statementType="CALLABLE" parameterType="java.util.HashMap">
 		{
 			CALL getBestNewProduct(
 				#{ref_cursor1, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productMap},
-				#{ref_cursor2, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productMap2}
+				#{ref_cursor2, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productMap2},
+				#{ref_cursor3, mode=OUT, jdbcType=CURSOR, javaType=ResultSet, resultMap=productMap3}
 			)
 		}
 	</select>

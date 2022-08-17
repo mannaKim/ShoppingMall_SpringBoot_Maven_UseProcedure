@@ -39,4 +39,12 @@ public class AdminService {
 	public void insertProduct(HashMap<String, Object> paramMap) {
 		adao.insertProduct(paramMap);
 	}
+
+	public void getBannerList(HashMap<String, Object> paramMap) {
+		adao.getBannerList(paramMap);
+	}
+
+	public void insertBanner(HashMap<String, Object> paramMap) {
+		adao.insertBanner(paramMap);
+	}
 }

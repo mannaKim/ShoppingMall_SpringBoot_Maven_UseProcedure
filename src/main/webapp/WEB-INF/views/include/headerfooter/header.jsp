@@ -9,6 +9,17 @@
 	<link href="/css/shopping.css" rel="stylesheet">
 	<script type="text/javascript" src ="/script/member.js"></script>
 	<script type="text/javascript" src ="/script/mypage.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var num=0;
+			setInterval(function(){
+				$("#imgs").animate({left:num*-972},1000);
+				num++;
+				if(num==5) num=0;
+			},2000);
+		});
+	</script>
 </head>
 <body>
 	<div id="wrap">
@@ -36,7 +47,7 @@
 					<li><a href="cartList">CART</a></li>
 					<li><a href="myPage">MY PAGE</a></li>
 					<li><a href="qnaList?page=1">Q&amp;A(1:1)</a></li>
-					<li><a href="admin">admin</a></li>
+					<!-- <li><a href="admin">admin</a></li> -->
 				</ul>
 			</nav>
 			<nav id="category_menu">

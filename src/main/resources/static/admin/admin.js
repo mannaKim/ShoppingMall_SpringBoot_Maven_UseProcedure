@@ -121,3 +121,9 @@ function go_rep(){
 	document.frm.action="adminQnaRepSave";
 	document.frm.submit();
 }
+
+function go_banner_save(){
+	//밸리데이션 추가하기....
+	document.frm.action="bannerWrite";
+	document.frm.submit();
+}

@@ -152,4 +152,42 @@ public class AdminController {
 		as.insertProduct(paramMap);
 		return "redirect:/productList";
 	}
+	
+	@RequestMapping("adminBannerList")
+	public ModelAndView bannerList(HttpServletRequest request, Model model) {
+		ModelAndView mav = new ModelAndView();
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("loginAdmin")==null)
+			mav.setViewName("admin/adminLoginForm");
+		else {
+			HashMap<String,Object> paramMap = new HashMap<String,Object>();
+			paramMap.put("ref_cursor", null);
+			as.getBannerList(paramMap);
+			ArrayList<HashMap<String,Object>> list 
+				= (ArrayList<HashMap<String,Object>>)paramMap.get("ref_cursor");
+			mav.addObject("bannerList", list);
+		}
+		mav.setViewName("admin/banner/bannerList");
+		return mav;
+	}
+	
+	@RequestMapping("newBannerWrite")
+	public String newBannerWrite(HttpServletRequest request, Model model) {
+		return "admin/banner/writeBanner";
+	}
+	
+	@RequestMapping("bannerWrite")
+	public String bannerWrite(HttpServletRequest request, Model model) {
+		HashMap<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("name", request.getParameter("name"));
+		if(request.getParameter("order_seq").equals("6"))
+			paramMap.put("useyn", "n");
+		else 
+			paramMap.put("useyn", "y");
+		paramMap.put("order_seq", request.getParameter("order_seq"));
+		paramMap.put("image", request.getParameter("image"));
+		as.insertBanner(paramMap);
+		return "redirect:/adminBannerList";
+	}
 }

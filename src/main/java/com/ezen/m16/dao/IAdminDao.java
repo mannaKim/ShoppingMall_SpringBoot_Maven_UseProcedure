@@ -15,4 +15,8 @@ public interface IAdminDao {
 
 	void insertProduct(HashMap<String, Object> paramMap);
 
+	void getBannerList(HashMap<String, Object> paramMap);
+
+	void insertBanner(HashMap<String, Object> paramMap);
+
 }

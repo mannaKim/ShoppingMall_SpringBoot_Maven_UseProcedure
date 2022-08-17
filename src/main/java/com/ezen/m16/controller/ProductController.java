@@ -21,11 +21,17 @@ public class ProductController {
 	ProductService ps;
 	
 	@RequestMapping("/")
-	public String start(HttpServletRequest request, Model model) {
+	public String start() {
+		return "start";
+	}
+	
+	@RequestMapping("/webmain")
+	public String webmain(HttpServletRequest request, Model model) {
 		
 		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("ref_cursor1", null);
 		paramMap.put("ref_cursor2", null);
+		paramMap.put("ref_cursor3", null);
 		
 		ps.getBestNewProduct(paramMap);
 		
@@ -33,11 +39,14 @@ public class ProductController {
 			= (ArrayList<HashMap<String, Object>>)paramMap.get("ref_cursor1");
 		ArrayList<HashMap<String, Object>> list2
 		= (ArrayList<HashMap<String, Object>>)paramMap.get("ref_cursor2");
+		ArrayList<HashMap<String, Object>> list3
+		= (ArrayList<HashMap<String, Object>>)paramMap.get("ref_cursor3");
 		
 		model.addAttribute("newProductList", list1);
 		model.addAttribute("bestProductList", list2);
+		model.addAttribute("bannerList", list3);
 		
-		return "index";
+		return "windex";
 	}
 	
 	@RequestMapping("/category")
